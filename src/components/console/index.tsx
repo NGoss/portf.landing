@@ -23,6 +23,8 @@ export interface State {
 
 class Console extends React.Component<Props, State> {
 
+	 private container: React.RefObject<HTMLDivElement>
+
 	public constructor(props :Props) {
 		super(props)
 
@@ -36,6 +38,8 @@ class Console extends React.Component<Props, State> {
 			wdir: '/home/guest/'
 		}
 
+		this.container = React.createRef()
+
 		this.pushMessageToStack = this.pushMessageToStack.bind(this)
 	}
 
@@ -43,7 +47,7 @@ class Console extends React.Component<Props, State> {
     const { classes } = this.props
 
     return (
-      <div className={classes.rootContainer}>
+      <div ref={this.container} className={classes.rootContainer}>
 				<Monitor history={this.state.history} />
 	  	  <Input wdir={this.getWDir()} pushMessage={this.pushMessageToStack}/>
 	    </div>
@@ -53,6 +57,9 @@ class Console extends React.Component<Props, State> {
 	private pushMessageToStack(message :string) :void {
 		const command = `${this.getWDir()}%${message}`
 		this.setState({history: this.state.history.push(command)})
+		if (this.container.current) {
+			this.container.current.scrollIntoView({behavior: 'instant', block: 'end'})
+		}
 	}
 
 	private getWDir() :string {
@@ -63,6 +70,6 @@ class Console extends React.Component<Props, State> {
 export default attachStyles({
   rootContainer: {
 		display: 'inline-block',
-		padding: 10
+		padding: 10,
   },
 })(Console)

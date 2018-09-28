@@ -13,7 +13,7 @@ class App extends React.Component<Props> {
     const { classes, name, link } = this.props
 
     return (
-      <a tabIndex={-1} href={link} className={classes.link}>
+      <a href={link} className={classes.link}>
 		{name}
       </a>
     )

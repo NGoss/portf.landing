@@ -36,7 +36,8 @@ export default attachStyles({
     width: 'Calc(100% - 20px)'
   },
   consoleContainer: {
-    height: 100
+    height: '80%',
+    overflow: 'auto'
   },
   footerContainer: {
     bottom: 50,

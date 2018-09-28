@@ -15,7 +15,7 @@ class Monitor extends React.Component<Props> {
 
     return (
       <div className={classes.rootContainer}>
-        {history.map((command :string) => <p className={classes.text}>{command}</p>)}
+        {history.map((command :string, key :number) => <p key={key} className={classes.text}>{command}</p>)}
 		  </div>
     )
 	}
