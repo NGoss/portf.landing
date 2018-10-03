@@ -3,11 +3,13 @@ import { Classes } from 'jss'
 import attachStyles from 'react-jss'
 
 import Cursor from './cursor'
+import { User } from '.'
 
 export interface Props {
   classes: Classes,
   pushMessage: Function,
-  wdir: string
+  wdir: string,
+  user: User
 }
 
 export interface State {
@@ -26,11 +28,11 @@ class Input extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, wdir } = this.props
+    const { classes, wdir, user } = this.props
 
     return (
       <div className={classes.rootContainer}>
-        <p className={classes.text}>{wdir}%{this.state.command}</p><Cursor />
+        <p className={classes.text}>{user.name}:{wdir}%{this.state.command}</p><Cursor />
 		  </div>
     )
   }

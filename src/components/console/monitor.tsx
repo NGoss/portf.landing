@@ -5,7 +5,7 @@ import { List } from 'immutable'
 
 export interface Props {
 	classes: Classes,
-	history: List<string>
+  history: List<string>
 }
 
 class Monitor extends React.Component<Props> {
