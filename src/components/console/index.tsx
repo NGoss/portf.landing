@@ -1,13 +1,11 @@
 import * as React from 'react'
 import { Classes } from 'jss'
 import attachStyles from 'react-jss'
-import { List, Map } from 'immutable'
+import { List } from 'immutable'
 
 import Input from './input'
 import Monitor from './monitor'
-
-import directory from './directory'
-import find from './find'
+import { ls, cd, help, setUpFreePrint } from './exec'
 
 export interface User {
 	homeDir: string,
@@ -48,6 +46,9 @@ class Console extends React.Component<Props, State> {
 		this.pushMessageToStack = this.pushMessageToStack.bind(this)
 		this.print = this.print.bind(this)
 		this.freePrint = this.freePrint.bind(this)
+		this.getParentDir = this.getParentDir.bind(this)
+
+		setUpFreePrint(this.freePrint)
 	}
 
   public render() {
@@ -88,14 +89,27 @@ class Console extends React.Component<Props, State> {
 
 		switch (true) {
 			case lsRegex.test(message):
-				this.ls()
+				ls(this.state.wdir, this.state.wdir === '/')
 				break
 			case helpRegex.test(message):
-				this.help()
+				help()
 				break
 			case cdRegex.test(message):
-				this.cd(message.split('cd')[1].trim())
-				break
+				switch (message.split('cd')[1].trim()) {
+					case '/':
+						this.setState({wdir: '/'})
+						break
+					case '..':
+					case '../':
+						this.setState({wdir: this.getParentDir()})
+						break
+					case '':
+						this.setState({wdir: this.state.user.homeDir})
+						break
+					default:
+						this.setState({wdir: cd(message.split('cd')[1].trim(), this.state.wdir, this.getParentDir())})
+						break
+				}
 		}
 	}
 
@@ -103,63 +117,11 @@ class Console extends React.Component<Props, State> {
 		return this.state.user.homeDir === this.state.wdir ? '~' : this.state.wdir
 	}
 
-	private ls() :void {
-		let dir :any
-		let targetDir = this.state.wdir
-		if (this.state.wdir === '/') {
-			dir = directory['/']
-		} else {
-			if (targetDir[targetDir.length - 1] === '/') targetDir = targetDir.slice(0, targetDir.length - 1)
-			if (targetDir[0] === '/') targetDir = targetDir.slice(1, targetDir.length)
-			dir = find(directory['/'], targetDir.split('/').join('.'))
-		}
-		
-		const files = Object.keys(dir).filter((value :string) => typeof dir[value] === 'string')
-		const subdirs = Object.keys(dir).filter((value :string) => typeof dir[value] === 'object')
-
-		if (subdirs.length) this.freePrint(subdirs.reduce((next :string, current :string) => `${current} ${next}`))
-		if (files.length) this.freePrint(files.reduce((next :string, current :string) => `${current}  ${next}`))
-	}
-
-	private help() :void {
-		const commands = Map({
-			ls: 'list the contents of the current directory',
-			cd: 'change the current working directory',
-			help: 'print list of commands with usage'
-		})
-		commands.forEach((value :string, key :string) => {
-			this.freePrint(`${key}: ${value}`)
-		})
-	}
-
-	private cd(target :string) :void {
-		let targetDir = target
-		switch (targetDir) {
-			case '/':
-				this.setState({wdir: '/'})
-				break
-			case '~':
-			case '':
-				this.setState({wdir: this.state.user.homeDir})
-				break
-			default:
-				//relative path
-				if (targetDir[0] !== '/') {
-					target = this.state.wdir + targetDir
-					targetDir = target
-				}
-
-				if (targetDir[targetDir.length - 1] === '/') targetDir = targetDir.slice(0, targetDir.length - 1)
-				if (targetDir[0] === '/') targetDir = targetDir.slice(1, targetDir.length)
-				const dir = find(directory['/'], targetDir.split('/').join('.'))
-				if (dir) {
-					if (target[target.length -1] !== '/') target = target + '/'
-					if (target[0] !== '/') target = '/' + target
-
-					this.setState({wdir: target})
-				}
-		}
-
+	
+	private getParentDir() :string {
+		const regex = /(^(\/[^\/]+)+\/)/.exec(this.state.wdir.slice(0, this.state.wdir.length - 1))
+			if (regex) return regex[0]
+			return '/'
 	}
 }
 
