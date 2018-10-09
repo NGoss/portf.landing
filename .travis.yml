@@ -6,9 +6,12 @@ node_js:
   - 7
   - 6
 install:
+  npm install
+build:
   npm build
 deploy:
   provider: s3
   access_key_id: "AKIAJXAI52G3QQX767TA"
+  secret_access_key: KEYTHING
   bucket: "foinse.io"
   skip_cleanup: true
