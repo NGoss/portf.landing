@@ -42,7 +42,7 @@ export const ls = (targetDir :string, rootListing :boolean) :void => {
 	} else {
 		if (targetDir[targetDir.length - 1] === '/') targetDir = targetDir.slice(0, targetDir.length - 1)
 		if (targetDir[0] === '/') targetDir = targetDir.slice(1, targetDir.length)
-		dir = find(directory['/'], targetDir.split('/').join('.'))
+		dir = find(directory['/'], targetDir.split('/').join('|'))
 	}
 	
 	const files = Object.keys(dir).filter((value :string) => typeof dir[value] === 'string')
