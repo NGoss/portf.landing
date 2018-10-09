@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  10
+  9
+  8
+  7
+  6
+install:
+  npm install
+deploy:
+  provider: s3
+  access_key_id: "AKIAJEZKHERQBG7JCBCA"
+  secret_access_key: "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"
+  bucket: "foinse.io"
+  skip_cleanup: true
+  region: "US East (N. Virginia)"
