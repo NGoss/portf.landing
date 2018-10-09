@@ -2,12 +2,12 @@ language: node_js
 node_js:
   - 8
 install:
-  - npm install
-  - npm build
+  - yarn install
+  - yarn build
 deploy:
   provider: s3
   access_key_id: "AKIAJXAI52G3QQX767TA"
   secret_access_key: KEYTHING
   bucket: "foinse.io"
   skip_cleanup: true
-  initial_dir: build
+  local_dir: build
