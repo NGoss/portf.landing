@@ -35,7 +35,6 @@ export const help = () :void => {
 		ls: 'list the contents of the current directory',
 		cd: 'change the current working directory',
 		help: 'print list of commands with usage',
-		cat: 'get contents of text file'
 	})
 	commands.forEach((value :string, key :string) => {
 		freePrint(`${key}: ${value}`)
