@@ -7,7 +7,7 @@ install:
 deploy:
   provider: s3
   access_key_id: "AKIAJXAI52G3QQX767TA"
-  secret_access_key: KEYTHING
+  secret_access_key: $KEYTHING
   bucket: "foinse.io"
   skip_cleanup: true
   local_dir: build
