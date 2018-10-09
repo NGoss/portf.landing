@@ -5,7 +5,7 @@ import { List } from 'immutable'
 
 import Input from './input'
 import Monitor from './monitor'
-import { ls, cd, help, setUpFreePrint } from './exec'
+import { ls, cd, help, setUpFreePrint, cat } from './exec'
 
 export interface User {
 	homeDir: string,
@@ -86,6 +86,7 @@ class Console extends React.Component<Props, State> {
 		const lsRegex = /^ls/
 		const helpRegex = /^help/
 		const cdRegex = /^cd/
+		const catRegex = /^cat/
 
 		switch (true) {
 			case lsRegex.test(message):
@@ -110,6 +111,9 @@ class Console extends React.Component<Props, State> {
 						this.setState({wdir: cd(message.split('cd')[1].trim(), this.state.wdir, this.getParentDir())})
 						break
 				}
+				break
+			case catRegex.test(message):
+				cat(message.split('cat')[1].trim(), this.state.wdir, this.getParentDir())
 		}
 	}
 
