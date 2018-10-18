@@ -1,24 +1,11 @@
-import iterate from '../../../src/components/console/exec'
+import { cd } from '../../../src/components/console/exec'
 
 it('Executes cd successfully on an absolute path when the directory exists', () => {
-	const path = 'a|b|c|d'
-	const testDirectory = {
-		files: [],
-		a: {
-			files: [],
-			b: {
-				files: [],
-				c: {
-					files: [],
-					d : {
-						files: ['test']
-					}
-				}
-			}
-		}
-	}
+	const path = '/home/user/'
+	const wdir = '/home/user/guest'
+	const parentDir = '/home/user/'
 
-	const result = iterate(testDirectory, path)
+	const result = cd(path, wdir, parentDir)
 
-	expect(result).toEqual({files: ['test']})
+	expect(result).toEqual('/home/user/')
 })
