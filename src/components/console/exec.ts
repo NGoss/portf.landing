@@ -44,7 +44,7 @@ export const ls = (targetDir :string, rootListing :boolean) :void => {
 		if (targetDir[0] === '/') targetDir = targetDir.slice(1, targetDir.length)
 		dir = find(directory['/'], targetDir.split('/').join('|'))
 	}
-	
+
 	const files = Object.keys(dir).filter((value :string) => typeof dir[value] === 'string')
 	const subdirs = Object.keys(dir).filter((value :string) => typeof dir[value] === 'object')
 
@@ -69,10 +69,10 @@ export const cd = (target :string, wdir :string, parentDir :string) :string => {
 
 	const dir = find(directory['/'], targetDir.split('/').join('|'))
 	if (dir) {
-		if (target[target.length -1] !== '/') target = target + '/'
-		if (target[0] !== '/') target = '/' + target
+		if (targetDir[targetDir.length -1] !== '/') targetDir = targetDir + '/'
+		if (targetDir[0] !== '/') targetDir = '/' + targetDir
 
-		return target
+		return targetDir
 	}
 
 	freePrint('System could not find directory ' + target)
