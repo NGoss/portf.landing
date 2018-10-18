@@ -12,7 +12,7 @@ const iterate = (root :directory, stack :string) :directory => {
 
 		const iterateRoot = root[dirs[0]]
 		dirs.shift()
-		
+
 		return iterate(iterateRoot, dirs.join('|'))
 	}
 
