@@ -2,6 +2,7 @@ export default {
 	'/': {
 		home: {
 			user: {
+				'users.txt': 'These are the users configured on your virtual workspace.',
 				guest: {
 					'hello.txt': 'Hello, world!'
 				},

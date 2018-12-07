@@ -90,7 +90,7 @@ class Console extends React.Component<Props, State> {
 
 		switch (true) {
 			case lsRegex.test(message):
-				ls(this.state.wdir, this.state.wdir === '/')
+				ls(this.state.wdir, message.split('ls')[1].trim())
 				break
 			case helpRegex.test(message):
 				help()

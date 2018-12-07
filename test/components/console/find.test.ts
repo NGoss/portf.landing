@@ -1,25 +1,35 @@
-import iterate from '../../../src/components/console/find'
+import find from '../../../src/components/console/find'
 
-it('Searches a directory successfully when the path exists', () => {
-	const path = 'a|b|c|d'
-	const testDirectory = {
+const testDirectory = {
+	files: [],
+	a: {
 		files: [],
-		a: {
+		b: {
 			files: [],
-			b: {
+			c: {
 				files: [],
-				c: {
-					files: [],
-					d : {
-						files: ['test']
-					}
+				d : {
+					files: ['test']
 				}
 			}
 		}
 	}
+}
 
-	const result = iterate(testDirectory, path)
+it('Searches a directory successfully when the path exists', () => {
+	const path = 'a|b|c|d'
+
+	const result = find(testDirectory, path)
 
 	expect(result.dir).toEqual({files: ['test']})
 	expect(result.path).toEqual('/a/b/c/d/')
+})
+
+it('Handles root directory queries successfully', () => {
+	const path = 'a|..'
+
+	const result = find(testDirectory, path)
+
+	expect(result.dir).toEqual(testDirectory)
+	expect(result.path).toEqual('/')
 })

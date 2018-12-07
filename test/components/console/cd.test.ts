@@ -1,6 +1,6 @@
 import { cd } from '../../../src/components/console/exec'
 
-it('Executes cd successfully on an absolute path when the directory exists', () => {
+it('Executes cd successfully on an absolute path', () => {
 	const path = '/home/user/'
 	const wdir = '/home/user/guest'
 
@@ -9,7 +9,7 @@ it('Executes cd successfully on an absolute path when the directory exists', () 
 	expect(result).toEqual('/home/user/')
 })
 
-it('Executes cd successfully on a non-dot relative path when the directory exists', () => {
+it('Executes cd successfully on a non-dot relative path', () => {
 	const path = 'guest'
 	const wdir = '/home/user/'
 
@@ -18,7 +18,7 @@ it('Executes cd successfully on a non-dot relative path when the directory exist
 	expect(result).toEqual('/home/user/guest/')
 })
 
-it('Executes cd successfully on a dot relative path when the directory exists', () => {
+it('Executes cd successfully on a dot relative path', () => {
 	const path = './guest'
 	const wdir = '/home/user/'
 
@@ -27,7 +27,7 @@ it('Executes cd successfully on a dot relative path when the directory exists', 
 	expect(result).toEqual('/home/user/guest/')
 })
 
-it('Executes cd successfully on a upward-relative path when the directory exists', () => {
+it('Executes cd successfully on a upward-relative path', () => {
 	const path = '../guest'
 	const wdir = '/home/user/root/'
 

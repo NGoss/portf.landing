@@ -26,16 +26,14 @@ const processRelativePath = (target :string, wdir :string) :string => {
 }
 
 
-export const ls = (targetDir :string, rootListing :boolean) :void => {
+export const ls = (wdir :string, target ?:string | undefined) :void => {
+	let targetDir = target ? processRelativePath(target, wdir) : wdir
 	let dir :any
-	if (rootListing) {
-		dir = directory['/']
-	} else {
-		if (targetDir[targetDir.length - 1] === '/') targetDir = targetDir.slice(0, targetDir.length - 1)
-		if (targetDir[0] === '/') targetDir = targetDir.slice(1, targetDir.length)
-		const result = find(directory['/'], targetDir.split('/').join('|'))
-		dir = result.dir
-	}
+
+	if (targetDir[targetDir.length - 1] === '/') targetDir = targetDir.slice(0, targetDir.length - 1)
+	if (targetDir[0] === '/') targetDir = targetDir.slice(1, targetDir.length)
+	const result = find(directory['/'], targetDir.split('/').join('|'))
+	dir = result.dir
 
 	const files = Object.keys(dir).filter((value :string) => typeof dir[value] === 'string')
 	const subdirs = Object.keys(dir).filter((value :string) => typeof dir[value] === 'object')
