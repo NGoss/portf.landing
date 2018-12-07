@@ -100,20 +100,16 @@ class Console extends React.Component<Props, State> {
 					case '/':
 						this.setState({wdir: '/'})
 						break
-					case '..':
-					case '../':
-						this.setState({wdir: this.getParentDir()})
-						break
 					case '':
 						this.setState({wdir: this.state.user.homeDir})
 						break
 					default:
-						this.setState({wdir: cd(message.split('cd')[1].trim(), this.state.wdir, this.getParentDir())})
+						this.setState({wdir: cd(message.split('cd')[1].trim(), this.state.wdir)})
 						break
 				}
 				break
 			case catRegex.test(message):
-				cat(message.split('cat')[1].trim(), this.state.wdir, this.getParentDir())
+				cat(message.split('cat')[1].trim(), this.state.wdir)
 		}
 	}
 

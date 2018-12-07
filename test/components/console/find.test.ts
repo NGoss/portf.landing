@@ -20,5 +20,6 @@ it('Searches a directory successfully when the path exists', () => {
 
 	const result = iterate(testDirectory, path)
 
-	expect(result).toEqual({files: ['test']})
+	expect(result.dir).toEqual({files: ['test']})
+	expect(result.path).toEqual('/a/b/c/d/')
 })

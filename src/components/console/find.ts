@@ -2,21 +2,52 @@ interface directory {
 	files: Array<string>
 }
 
-const iterate = (root :directory, stack :string) :directory => {
-	//a.b.c.d
-	let dirs = stack.split('|')
-	if (root.hasOwnProperty(dirs[0])) {
-		if (!(dirs.length - 1)) {
-			return root[dirs[0]]
-		}
-
-		const iterateRoot = root[dirs[0]]
-		dirs.shift()
-
-		return iterate(iterateRoot, dirs.join('|'))
-	}
-
-	throw 'Could not find...'
+interface result {
+	dir :directory,
+	path :string
 }
 
-export default iterate
+const find = (root :directory, stack :string) :result => {
+	return iterate(root, aggregateRelative(stack))
+}
+
+const iterate = (root :directory, stack :string) :result => {
+	//a.b.c.d
+
+	if (!stack) return {dir: root, path: '/'}
+
+	let dirs = stack.split('|')
+	let current :string | undefined = dirs[0]
+
+	if (root.hasOwnProperty(current)) {
+		if (!(dirs.length - 1)) {
+			return {dir: root[current], path: `/${stack}/`}
+		}
+
+		dirs.shift()
+
+		const {dir, path} = iterate(root[current], dirs.join('|'))
+		return {dir, path: `/${current}${path}`}
+
+	}
+
+	throw `Could not find directory: ${stack}`
+}
+
+const aggregateRelative = (path :string) :string => {
+	let dirs = path.split('|')
+
+	return dirs.reduce((previous :string, current :string) :string => {
+		switch (current) {
+			case '..':
+				if (!previous.includes('|')) return ''
+				return previous.slice(0, previous.lastIndexOf('|'))
+			case '.':
+				return previous
+			default:
+				return previous ? previous + '|' + current : current
+		}
+	})
+}
+
+export default find

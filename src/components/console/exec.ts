@@ -13,19 +13,10 @@ export const setUpFreePrint = (freePrintRef :freePrintMethod) => {
 }
 
 
-const processRelativePath = (target :string, wdir :string, parentDir :string) :string => {
-	let targetDir = target //Store for processing purposes
-
-	//relative path to parent directory
-	if (targetDir.slice(0, 3) === '../') {
-		target = parentDir + targetDir.slice(3, targetDir.length)
-		targetDir = target
-	}
-
-	//relative path to subdirectory
-	if (targetDir[0] !== '/' || targetDir.slice(0,2) === './') {
-		target = wdir + targetDir
-		targetDir = target
+const processRelativePath = (target :string, wdir :string) :string => {
+	let targetDir = target
+	if (targetDir[0] !== '/') {
+		targetDir = wdir + target
 	}
 
 	if (targetDir[targetDir.length - 1] === '/') targetDir = targetDir.slice(0, targetDir.length - 1)
@@ -42,7 +33,8 @@ export const ls = (targetDir :string, rootListing :boolean) :void => {
 	} else {
 		if (targetDir[targetDir.length - 1] === '/') targetDir = targetDir.slice(0, targetDir.length - 1)
 		if (targetDir[0] === '/') targetDir = targetDir.slice(1, targetDir.length)
-		dir = find(directory['/'], targetDir.split('/').join('|'))
+		const result = find(directory['/'], targetDir.split('/').join('|'))
+		dir = result.dir
 	}
 
 	const files = Object.keys(dir).filter((value :string) => typeof dir[value] === 'string')
@@ -64,23 +56,23 @@ export const help = () :void => {
 	})
 }
 
-export const cd = (target :string, wdir :string, parentDir :string) :string => {
-	let targetDir = processRelativePath(target, wdir, parentDir)
+export const cd = (target :string, wdir :string) :string => {
+	let targetDir = processRelativePath(target, wdir)
 
-	const dir = find(directory['/'], targetDir.split('/').join('|'))
+	const {dir, path} = find(directory['/'], targetDir.split('/').join('|'))
 	if (dir) {
 		if (targetDir[targetDir.length -1] !== '/') targetDir = targetDir + '/'
 		if (targetDir[0] !== '/') targetDir = '/' + targetDir
 
-		return targetDir
+		return path
 	}
 
 	freePrint('System could not find directory ' + target)
 	return wdir
 }
 
-export const cat = (targetFile :string, wdir :string, parentDir :string) :void => {
-	const target = processRelativePath(targetFile, wdir, parentDir)
+export const cat = (targetFile :string, wdir :string) :void => {
+	const target = processRelativePath(targetFile, wdir)
 	const file = find(directory['/'], target.split('/').join('|'))
 
 	if (typeof file === "string") {
