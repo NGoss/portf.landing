@@ -10,6 +10,9 @@ export default {
 					'root.txt': 'You made it here. Good job!'
 				}
 			}
+		},
+		var: {
+			'var.txt': 'This is a file in /var/'
 		}
 	}
 }

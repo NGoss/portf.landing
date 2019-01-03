@@ -35,3 +35,21 @@ it('Executes cd successfully on a upward-relative path', () => {
 
 	expect(result).toEqual('/home/user/guest/')
 })
+
+it('Executes cd successfully with multiple nested upward relative references in the path', () => {
+	const path = '../../../var'
+	const wdir = '/home/user/guest/'
+
+	const result = cd(path, wdir)
+	
+	expect(result).toEqual('/var/')
+})
+
+it('Executes cd successfully with multiple nested dot relative references in the path', () => {
+	const path = '././guest'
+	const wdir = '/home/user/'
+
+	const result = cd(path, wdir)
+
+	expect(result).toEqual('/home/user/guest/')
+})

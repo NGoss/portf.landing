@@ -25,11 +25,20 @@ it('Searches a directory successfully when the path exists', () => {
 	expect(result.path).toEqual('/a/b/c/d/')
 })
 
-it('Handles root directory queries successfully', () => {
+it('Handles relative root directory queries successfully', () => {
 	const path = 'a|..'
 
 	const result = find(testDirectory, path)
 
 	expect(result.dir).toEqual(testDirectory)
 	expect(result.path).toEqual('/')
+})
+
+it('Handles nested relative directory queries successfully', () => {
+	const path = 'a|b|.|..|b|c|.|d|..|d'
+
+	const result = find(testDirectory, path)
+
+	expect(result.dir).toEqual({files: ['test']})
+	expect(result.path).toEqual('/a/b/c/d/')
 })
