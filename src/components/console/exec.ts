@@ -71,9 +71,9 @@ export const cd = (target :string, wdir :string) :string => {
 
 export const cat = (targetFile :string, wdir :string) :void => {
 	const target = processRelativePath(targetFile, wdir)
-	const file = find(directory['/'], target.split('/').join('|'))
+	const {dir} = find(directory['/'], target.split('/').join('|'))
 
-	if (typeof file === "string") {
-		freePrint(file)
+	if (typeof dir === "string") {
+		freePrint(dir)
 	}
 }
