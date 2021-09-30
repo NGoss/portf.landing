@@ -1,17 +1,13 @@
-interface directory {
-	files: Array<string>
-}
-
 interface result {
-	dir :directory,
+	dir :object,
 	path :string
 }
 
-const find = (root :directory, stack :string) :result => {
+const find = (root :object, stack :string) :result => {
 	return iterate(root, aggregateRelative(stack))
 }
 
-const iterate = (root :directory, stack :string) :result => {
+const iterate = (root :object, stack :string) :result => {
 	//a.b.c.d
 
 	if (!stack) return {dir: root, path: '/'}

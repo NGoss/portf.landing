@@ -36,7 +36,8 @@ class Console extends React.Component<Props, State> {
 
 		this.state = {
 			history: List(['Welcome! Use the console to navigate your virtual workspace.',
-										'Type \'help\' for a list of commands.']),
+										'This is a work in progress and has been developed for recreational purposes only.',
+										'Type \'help\' for a list of commands.',]),
 			user: guestUser,
 			wdir: '/home/user/guest/'
 		}
@@ -71,14 +72,14 @@ class Console extends React.Component<Props, State> {
 		const command = `${this.state.user.name}:${this.getWDir()}%${message}`
 		this.setState({history: this.state.history.push(command)})
 		if (this.container.current) {
-			this.container.current.scrollIntoView({behavior: 'instant', block: 'end'})
+			this.container.current.scrollIntoView({behavior: 'auto', block: 'end'})
 		}
 	}
 
 	private freePrint(message :string) :void {
 		this.setState({history: this.state.history.push(message)})
 		if (this.container.current) {
-			this.container.current.scrollIntoView({behavior: 'instant', block: 'end'})
+			this.container.current.scrollIntoView({behavior: 'auto', block: 'end'})
 		}
 	}
 
