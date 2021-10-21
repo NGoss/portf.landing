@@ -36,7 +36,7 @@ class Console extends React.Component<Props, State> {
 
 		this.state = {
 			history: List(['Welcome! Use the console to navigate your virtual workspace.',
-										'This is a work in progress and has been developed for recreational purposes only.',
+										'This is a work in progress and has been made simply for the fun of it.',
 										'Type \'help\' for a list of commands.',]),
 			user: guestUser,
 			wdir: '/home/user/guest/'
