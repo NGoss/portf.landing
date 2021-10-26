@@ -15,7 +15,7 @@ class Nav extends React.Component<Props> {
     return (
       <div className={classes.rootContainer}>
 	  	  <Item name="Resume" link="/resume" />
-		    <Item name="Projects" link="/projects" />
+		    <Item name="eBook Viewer" link="http://viewer.foinse.io" />
 	    </div>
     )
   }
