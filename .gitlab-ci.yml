@@ -1,0 +1,23 @@
+stages:
+  - build
+  - deploy
+build:
+  stage: build
+  script:
+    - yarn install
+    - yarn build
+  artifacts:
+    when: on_success
+    paths:
+      - build/
+    expire_in: 20 mins
+
+deploy:
+  stage: deploy
+  needs:
+    - build
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  script:
+    - echo "Running deploy..."
+    - aws s3 cp ./build s3://$S3_BUCKET/ --recursive
+    - echo "Deployment successful"
